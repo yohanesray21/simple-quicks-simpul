@@ -1,9 +1,9 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import { Inter } from 'next/font/google';
-import styles from '@/styles/Home.module.css';
+import { Box, Input } from '@mantine/core';
 
-const inter = Inter({ subsets: ['latin'] });
+import { BiSearchAlt2 } from 'react-icons/bi';
+import QuicksButton from '@/components/QuicksButton';
 
 export default function Home() {
   return (
@@ -14,9 +14,33 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <div>Hello</div>
-      </main>
+      <Box
+        sx={{
+          backgroundColor: '#333',
+        }}
+      >
+        <Box
+          ml={250}
+          pos={'relative'}
+          sx={{
+            borderLeft: '1px gray solid',
+            minHeight: '100vh',
+            backgroundColor: '#333',
+          }}
+        >
+          <Input
+            bg={'#000'}
+            radius={'none'}
+            disabled
+            icon={<BiSearchAlt2 size="1rem" color="white" />}
+          />
+
+          {/* Quicks Button */}
+          <Box pos={'absolute'} bottom={27} right={34}>
+            <QuicksButton />
+          </Box>
+        </Box>
+      </Box>
     </>
   );
 }
