@@ -1,6 +1,5 @@
 import Head from 'next/head';
-import { Inter } from 'next/font/google';
-import { Box, Input } from '@mantine/core';
+import { Box, Flex, Input } from '@mantine/core';
 
 import { BiSearchAlt2 } from 'react-icons/bi';
 import QuicksButton from '@/components/QuicksButton';
@@ -37,7 +36,9 @@ export default function Home() {
 
           {/* Quicks Button */}
           <Box pos={'absolute'} bottom={27} right={34}>
-            <QuicksButton />
+            <Flex gap={10}>
+              <QuicksButton />
+            </Flex>
           </Box>
         </Box>
       </Box>
