@@ -1,21 +1,20 @@
+import { ActionIcon, Box, Flex, Popover, Text, TextInput } from '@mantine/core';
 import { useContext } from 'react';
-
-import { ActionIcon, Box, Popover, Text, TextInput } from '@mantine/core';
 import { OpenPopoverContext } from './QuicksButton';
 
-const SwitchTaskButton = () => {
-  const { isOpenTask, setIsOpenTask } = useContext(OpenPopoverContext);
+const SwitchInboxButton = () => {
+  const { isOpenInbox, setIsOpenInbox } = useContext(OpenPopoverContext);
 
   return (
     <Box pos="relative">
       <Text pos="absolute" top={-34} left={12} color="white" fw="bold">
-        Task
+        Inbox
       </Text>
-      <Popover position="top" trapFocus opened={isOpenTask}>
+      <Popover position="top" trapFocus opened={isOpenInbox}>
         <Popover.Target>
           <Box
             onClick={() => {
-              setIsOpenTask((prevIsOpenTask: boolean) => !prevIsOpenTask);
+              setIsOpenInbox((prevIsOpenInbox: boolean) => !prevIsOpenInbox);
             }}
             sx={{
               backgroundColor: '#4F4F4F',
@@ -25,22 +24,21 @@ const SwitchTaskButton = () => {
             <ActionIcon
               onClick={(e) => {
                 e.stopPropagation();
-                setIsOpenTask(true);
+                setIsOpenInbox(true);
               }}
               variant="filled"
               size="4.25rem"
               radius="100%"
               sx={{
-                backgroundColor: isOpenTask ? '#F8B76B' : 'white',
-                ':hover': { backgroundColor: isOpenTask ? '#F8B76B' : 'white' },
+                backgroundColor: isOpenInbox ? '#8785FF' : 'white',
+                ':hover': {
+                  backgroundColor: isOpenInbox ? '#8785FF' : 'white',
+                },
                 transitionTimingFunction: 'ease-out',
                 transitionDuration: '0.2s',
                 // https://github.com/mantinedev/mantine/discussions/4059
-                transform: isOpenTask ? 'translateX(15px) !important' : 'none',
+                transform: isOpenInbox ? 'translateX(15px) !important' : 'none',
                 transitionProperty: 'transform',
-                // ':active': {
-                //   transform: 'none',
-                // },
               }}
             >
               <svg
@@ -53,8 +51,8 @@ const SwitchTaskButton = () => {
                 <path
                   fillRule="evenodd"
                   clipRule="evenodd"
-                  d="M4.11114 4.66675H24.1111C25.3334 4.66675 26.3334 5.66675 26.3334 6.88897V21.3334C26.3334 22.5556 25.3334 23.5556 24.1111 23.5556H4.11114C2.88892 23.5556 1.88892 22.5556 1.88892 21.3334V6.88897C1.88892 5.66675 2.88892 4.66675 4.11114 4.66675ZM4.11114 6.88897V21.3334H13V6.88897H4.11114ZM24.1111 21.3334H15.2222V6.88897H24.1111V21.3334ZM23 10.7779H16.3334V12.4445H23V10.7779ZM16.3334 13.5556H23V15.2223H16.3334V13.5556ZM23 16.3334H16.3334V18.0001H23V16.3334Z"
-                  fill={isOpenTask ? 'white' : '#F8B76B'}
+                  d="M18.4443 3.11072H3.9999C3.38879 3.11072 2.88879 3.61072 2.88879 4.22183V19.7774L7.33324 15.3329H18.4443C19.0555 15.3329 19.5555 14.8329 19.5555 14.2218V4.22183C19.5555 3.61072 19.0555 3.11072 18.4443 3.11072ZM17.3332 5.33286V13.1106H6.41103L5.75547 13.7662L5.11103 14.4106V5.33286H17.3332ZM21.7777 7.55518H23.9999C24.611 7.55518 25.111 8.05518 25.111 8.66629V25.333L20.6666 20.8885H8.44435C7.83324 20.8885 7.33324 20.3885 7.33324 19.7774V17.5552H21.7777V7.55518Z"
+                  fill={isOpenInbox ? 'white' : '#8785FF'}
                 />
               </svg>
             </ActionIcon>
@@ -81,4 +79,4 @@ const SwitchTaskButton = () => {
   );
 };
 
-export default SwitchTaskButton;
+export default SwitchInboxButton;
