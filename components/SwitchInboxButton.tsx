@@ -1,15 +1,20 @@
+import { useContext } from 'react';
+
 import {
   ActionIcon,
   Box,
   Center,
+  Input,
   Loader,
   Overlay,
   Popover,
   Text,
-  TextInput,
 } from '@mantine/core';
-import { useContext } from 'react';
+
 import { OpenPopoverContext } from './QuicksButton';
+import { messageList } from '@/mock/MessageList';
+import { BiSearchAlt2 } from 'react-icons/bi';
+import InboxMessage from './InboxMessage';
 
 const SwitchInboxButton = () => {
   const {
@@ -83,7 +88,14 @@ const SwitchInboxButton = () => {
             </ActionIcon>
           </Box>
         </Popover.Target>
-        <Popover.Dropdown bg={'white'} sx={{ border: 'none' }} ml={-34}>
+        <Popover.Dropdown
+          bg={'white'}
+          sx={{
+            border: 'none',
+            padding: '20px 39px 20px 29px',
+          }}
+          ml={-34}
+        >
           <Box
             sx={() => ({
               '@media (min-width: 1920px)': {
@@ -96,7 +108,25 @@ const SwitchInboxButton = () => {
               },
             })}
           >
-            <TextInput placeholder="Search" size="xs" />
+            <Input
+              // style={{ padding: '10px 48px' }}
+              placeholder="Search"
+              rightSection={<BiSearchAlt2 />}
+              size="xs"
+            />
+
+            {!isLoadingVisibility &&
+              messageList.map((message) => (
+                <InboxMessage
+                  key={message.id}
+                  date={message.date}
+                  group={message.group}
+                  message={message.message}
+                  roomName={message.roomName}
+                  sender={message.sender}
+                  unread={message.unread}
+                />
+              ))}
             <Center
               sx={{
                 height: '90%',
