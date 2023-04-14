@@ -1,20 +1,40 @@
-import { ActionIcon, Box, Flex, Popover, Text, TextInput } from '@mantine/core';
+import {
+  ActionIcon,
+  Box,
+  Center,
+  Loader,
+  Overlay,
+  Popover,
+  Text,
+  TextInput,
+} from '@mantine/core';
 import { useContext } from 'react';
 import { OpenPopoverContext } from './QuicksButton';
 
 const SwitchInboxButton = () => {
-  const { isOpenInbox, setIsOpenInbox } = useContext(OpenPopoverContext);
+  const {
+    isOpenInbox,
+    setIsOpenInbox,
+    setIsOpenTask,
+    isLoadingVisibility,
+    setIsLoadingVisibility,
+  } = useContext(OpenPopoverContext);
 
   return (
     <Box pos="relative">
       <Text pos="absolute" top={-34} left={12} color="white" fw="bold">
         Inbox
       </Text>
-      <Popover position="top" trapFocus opened={isOpenInbox}>
+      <Popover
+        position="top"
+        trapFocus={!isLoadingVisibility}
+        opened={isOpenInbox}
+      >
         <Popover.Target>
           <Box
             onClick={() => {
               setIsOpenInbox((prevIsOpenInbox: boolean) => !prevIsOpenInbox);
+              setIsOpenTask(false);
             }}
             sx={{
               backgroundColor: '#4F4F4F',
@@ -25,6 +45,11 @@ const SwitchInboxButton = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 setIsOpenInbox(true);
+                setIsOpenTask(false);
+
+                setTimeout(() => {
+                  setIsLoadingVisibility(false);
+                }, 1200);
               }}
               variant="filled"
               size="4.25rem"
@@ -72,6 +97,20 @@ const SwitchInboxButton = () => {
             })}
           >
             <TextInput placeholder="Search" size="xs" />
+            <Center
+              sx={{
+                height: '90%',
+                width: '100%',
+                display: isLoadingVisibility ? 'flex' : 'none',
+                flexDirection: 'column',
+              }}
+            >
+              <Overlay color="#000" opacity={0} />
+              <Loader color="gray" size={61.22} mb={12.7} />
+              <Text color="#4F4F4F" fw="bold">
+                Loading Chats ...
+              </Text>
+            </Center>
           </Box>
         </Popover.Dropdown>
       </Popover>

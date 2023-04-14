@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { ActionIcon, Box, Flex, Popover } from '@mantine/core';
@@ -12,6 +12,8 @@ type OpenPopoverContextType = {
   setIsOpenTask: React.Dispatch<React.SetStateAction<boolean>>;
   isOpenInbox: boolean;
   setIsOpenInbox: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoadingVisibility: boolean;
+  setIsLoadingVisibility: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const OpenPopoverContext = createContext<OpenPopoverContextType>({
@@ -19,15 +21,25 @@ export const OpenPopoverContext = createContext<OpenPopoverContextType>({
   setIsOpenTask: () => {},
   isOpenInbox: false,
   setIsOpenInbox: () => {},
+  isLoadingVisibility: true,
+  setIsLoadingVisibility: () => {},
 });
 
 const QuicksButton = () => {
   const [isOpenTask, setIsOpenTask] = useState(false);
   const [isOpenInbox, setIsOpenInbox] = useState(false);
+  const [isLoadingVisibility, setIsLoadingVisibility] = useState(true);
 
   return (
     <OpenPopoverContext.Provider
-      value={{ isOpenTask, setIsOpenTask, isOpenInbox, setIsOpenInbox }}
+      value={{
+        isOpenTask,
+        setIsOpenTask,
+        isOpenInbox,
+        setIsOpenInbox,
+        isLoadingVisibility,
+        setIsLoadingVisibility,
+      }}
     >
       <Popover
         position="left"

@@ -1,21 +1,45 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 
-import { ActionIcon, Box, Popover, Text, TextInput } from '@mantine/core';
+import {
+  ActionIcon,
+  Box,
+  Center,
+  Loader,
+  Overlay,
+  Popover,
+  Text,
+  TextInput,
+} from '@mantine/core';
 import { OpenPopoverContext } from './QuicksButton';
 
 const SwitchTaskButton = () => {
-  const { isOpenTask, setIsOpenTask } = useContext(OpenPopoverContext);
+  const {
+    isOpenTask,
+    setIsOpenTask,
+    setIsOpenInbox,
+    isLoadingVisibility,
+    setIsLoadingVisibility,
+  } = useContext(OpenPopoverContext);
+
+  useEffect(() => {
+    setIsLoadingVisibility(true);
+  }, []);
 
   return (
     <Box pos="relative">
       <Text pos="absolute" top={-34} left={12} color="white" fw="bold">
         Task
       </Text>
-      <Popover position="top" trapFocus opened={isOpenTask}>
+      <Popover
+        position="top"
+        trapFocus={!isLoadingVisibility}
+        opened={isOpenTask}
+      >
         <Popover.Target>
           <Box
             onClick={() => {
               setIsOpenTask((prevIsOpenTask: boolean) => !prevIsOpenTask);
+              setIsOpenInbox(false);
             }}
             sx={{
               backgroundColor: '#4F4F4F',
@@ -26,6 +50,11 @@ const SwitchTaskButton = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 setIsOpenTask(true);
+                setIsOpenInbox(false);
+
+                setTimeout(() => {
+                  setIsLoadingVisibility(false);
+                }, 1200);
               }}
               variant="filled"
               size="4.25rem"
@@ -74,6 +103,20 @@ const SwitchTaskButton = () => {
             })}
           >
             <TextInput placeholder="Search" size="xs" />
+            <Center
+              sx={{
+                height: '90%',
+                width: '100%',
+                display: isLoadingVisibility ? 'flex' : 'none',
+                flexDirection: 'column',
+              }}
+            >
+              <Overlay color="#000" opacity={0} />
+              <Loader color="gray" size={61.22} mb={12.7} />
+              <Text color="#4F4F4F" fw="bold">
+                Loading Task List ...
+              </Text>
+            </Center>
           </Box>
         </Popover.Dropdown>
       </Popover>
