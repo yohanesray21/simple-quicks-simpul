@@ -2,9 +2,9 @@ export const messageList = [
   {
     id: 1,
     group: true,
-    roomName: '109220-Naturalization',
+    roomName: '1-589 - AMARKHIL, Obaidullah [Affirmative Filing with ZHN]',
     date: 'January 1,2021 19:10',
-    sender: 'Cameron Philips',
+    sender: 'Mary Hilda',
     message: 'Please check This Out',
     unread: true,
   },
