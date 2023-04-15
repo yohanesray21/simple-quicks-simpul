@@ -11,7 +11,6 @@ import {
   TextInput,
 } from '@mantine/core';
 import { OpenPopoverContext } from './QuicksButton';
-import QuicksInbox from './Inbox/QuicksInbox';
 import QuicksTask from './Task/QuicksTask';
 
 const SwitchTaskButton = () => {
