@@ -24,7 +24,7 @@ const SwitchTaskButton = () => {
 
   useEffect(() => {
     setIsLoadingVisibility(true);
-  }, []);
+  }, [setIsLoadingVisibility]);
 
   return (
     <Box pos="relative">
