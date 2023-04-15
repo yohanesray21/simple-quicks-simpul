@@ -11,7 +11,7 @@ interface IInboxProps {
   unread: boolean;
 }
 
-const InboxMessageItem = ({
+const InboxMessage = ({
   group,
   roomName,
   date,
@@ -111,4 +111,4 @@ const InboxMessageItem = ({
   );
 };
 
-export default InboxMessageItem;
+export default InboxMessage;
