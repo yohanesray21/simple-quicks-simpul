@@ -89,7 +89,6 @@ const SwitchInboxButton = () => {
           ml={-34}
         >
           {!isOpenGroupChat && !isOpenPrivateChat ? <QuicksInbox /> : <></>}
-
           {isOpenGroupChat && !isOpenPrivateChat ? <InboxGroupDetail /> : <></>}
           {!isOpenGroupChat && isOpenPrivateChat ? (
             <InboxPrivateDetail />

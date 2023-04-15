@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
-import { Avatar, Box, Text } from '@mantine/core';
+import { ActionIcon, Avatar, Box, Checkbox, Menu, Text } from '@mantine/core';
 import { OpenPopoverContext } from '../QuicksButton';
+import { BiChevronDown } from 'react-icons/bi';
+import { HiDotsHorizontal } from 'react-icons/hi';
 
 interface IInboxProps {
   group: boolean;
@@ -11,7 +13,7 @@ interface IInboxProps {
   unread: boolean;
 }
 
-const InboxMessage = ({
+const TaskItem = ({
   group,
   roomName,
   date,
@@ -44,34 +46,54 @@ const InboxMessage = ({
         }
       }}
     >
-      <Box w={60} mr={17}>
-        <Avatar.Group>
-          {group ? (
-            <>
-              <Avatar
-                radius="xl"
-                color="gray"
-                sx={{ height: '34px', width: '34px' }}
-              />
-              <Avatar
-                radius="xl"
-                color="blue"
-                sx={{ height: '34px', width: '34px' }}
-              />
-            </>
-          ) : (
-            <Avatar
-              radius="xl"
-              color="blue"
-              sx={{ height: '34px', width: '34px' }}
-              mx="auto"
-            >
-              {roomName.substring(0, 1)}
-            </Avatar>
-          )}
-        </Avatar.Group>
+      <Box
+        w="100%"
+        display="flex"
+        sx={{
+          alignItems: 'flex-start',
+          justifyContent: 'space-around',
+          gap: '8px',
+        }}
+      >
+        <Checkbox
+          label={'Close off Case #012920- RODRIGUES, Amiguel'}
+          size="xs"
+          fw="bold"
+          w="100%"
+          // https://stackoverflow.com/questions/74957013/how-do-i-change-the-color-of-a-mantine-component-label
+          sx={{ ['& .mantine-Checkbox-label']: { color: '#4F4F4F' }, flex: 1 }}
+        />
+        {/* <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 10,
+          }}
+        > */}
+        <Text fw="normal" fz="sm" color="#EB5757">
+          2 Days Left
+        </Text>
+        <Text fw="normal" fz="sm" color="#4F4F4F">
+          12/06/2021
+        </Text>
+        <ActionIcon>
+          <BiChevronDown size="1rem" color="4F4F4F" />
+        </ActionIcon>
+        <Menu>
+          <Menu.Target>
+            <ActionIcon>
+              <HiDotsHorizontal size="16px" color="gray" />
+            </ActionIcon>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item>Delete</Menu.Item>
+            <Menu.Item>Edit</Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
       </Box>
-      <Box w="100%">
+      {/* </Box> */}
+      {/* <Box w="100%">
         <Box display="flex">
           <Text color="#2F80ED" fw="bold">
             {roomName}
@@ -106,9 +128,9 @@ const InboxMessage = ({
             />
           )}
         </Box>
-      </Box>
+      </Box> */}
     </Box>
   );
 };
 
-export default InboxMessage;
+export default TaskItem;

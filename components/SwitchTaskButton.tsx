@@ -11,6 +11,8 @@ import {
   TextInput,
 } from '@mantine/core';
 import { OpenPopoverContext } from './QuicksButton';
+import QuicksInbox from './Inbox/QuicksInbox';
+import QuicksTask from './Task/QuicksTask';
 
 const SwitchTaskButton = () => {
   const {
@@ -89,35 +91,15 @@ const SwitchTaskButton = () => {
             </ActionIcon>
           </Box>
         </Popover.Target>
-        <Popover.Dropdown bg={'white'} sx={{ border: 'none' }} ml={-34}>
-          <Box
-            sx={() => ({
-              '@media (min-width: 1920px)': {
-                width: '734px',
-                height: '734px',
-              },
-              '@media (max-width: 1512px)': {
-                width: '600px',
-                height: '600px',
-              },
-            })}
-          >
-            <TextInput placeholder="Search" size="xs" />
-            <Center
-              sx={{
-                height: '90%',
-                width: '100%',
-                display: isLoadingVisibility ? 'flex' : 'none',
-                flexDirection: 'column',
-              }}
-            >
-              <Overlay color="#000" opacity={0} />
-              <Loader color="gray" size={61.22} mb={12.7} />
-              <Text color="#4F4F4F" fw="bold">
-                Loading Task List ...
-              </Text>
-            </Center>
-          </Box>
+
+        <Popover.Dropdown
+          bg={'white'}
+          sx={{
+            padding: 0,
+          }}
+          ml={-34}
+        >
+          <QuicksTask />
         </Popover.Dropdown>
       </Popover>
     </Box>
