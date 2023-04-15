@@ -1,18 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import {
   ActionIcon,
-  Box,
   Button,
-  CloseButton,
-  Divider,
   Input,
-  Menu,
+  Box,
+  Loader,
   Navbar,
   ScrollArea,
   Text,
+  keyframes,
+  Center,
 } from '@mantine/core';
 
-import { HiArrowLeft, HiDotsHorizontal } from 'react-icons/hi';
+import { HiArrowDown, HiArrowLeft, HiDotsHorizontal } from 'react-icons/hi';
 import { MdOutlineClose } from 'react-icons/md';
 import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import OwnMessage from './OwnMessage';
@@ -20,13 +20,39 @@ import MessageDivider from './MessageDivider';
 import AnotherUserMessage from './AnotherUserMessage';
 import { OpenPopoverContext } from '../QuicksButton';
 
+const bounce = keyframes({
+  '0%': {
+    transform: 'translateY(0)',
+  },
+  '50%': {
+    transform: 'translateY(3px)',
+  },
+  '100%': {
+    transform: 'translateY(0)',
+  },
+});
+
 const InboxGroupDetail = () => {
+  const viewport = useRef<HTMLDivElement>(null);
+
+  const [hideScrollNewMessage, setHideScrollNewMessage] = useState(false);
+
   const {
     setIsOpenGroupChat,
     setIsOpenPrivateChat,
+    setIsOpenInbox,
     isOpenGroupChat,
     isOpenPrivateChat,
   } = useContext(OpenPopoverContext);
+
+  const scrollToBottom = () => {
+    viewport.current?.scrollTo({
+      top: viewport.current.scrollHeight,
+      behavior: 'smooth',
+    });
+
+    setHideScrollNewMessage(true);
+  };
 
   return (
     <Navbar
@@ -51,7 +77,13 @@ const InboxGroupDetail = () => {
             alignItems: 'center',
           }}
         >
-          <ActionIcon sx={{ ':hover': { backgroundColor: 'white' } }}>
+          <ActionIcon
+            sx={{ ':hover': { backgroundColor: 'white' } }}
+            onClick={() => {
+              setIsOpenGroupChat(false);
+              setIsOpenPrivateChat(false);
+            }}
+          >
             <HiArrowLeft size="24px" color="#333333" />
           </ActionIcon>
           <Box
@@ -73,8 +105,7 @@ const InboxGroupDetail = () => {
           <ActionIcon
             sx={{ ':hover': { backgroundColor: 'white' } }}
             onClick={() => {
-              setIsOpenGroupChat(false);
-              setIsOpenPrivateChat(false);
+              setIsOpenInbox(false);
             }}
           >
             <MdOutlineClose size="24px" color="#333333" />
@@ -85,38 +116,89 @@ const InboxGroupDetail = () => {
       <Navbar.Section
         grow
         component={ScrollArea}
+        viewportRef={viewport}
         sx={{ padding: '13px 19px 11px 29px' }}
       >
         <OwnMessage />
-
-        <MessageDivider />
-
-        <AnotherUserMessage />
+        <MessageDivider label="Today June 09, 2021" color="#4F4F4F" />
+        <AnotherUserMessage
+          color="#E5A443"
+          sender="Mary Hilda"
+          bgColor="#FCEED3"
+          messageContent="Hey there. Welcome to your inbox! Contact us for more information
+          and help about anything! We will send you a response as soon as
+          possible."
+        />
         <OwnMessage />
-        <AnotherUserMessage />
+
+        <AnotherUserMessage
+          color="#E5A443"
+          sender="Mary Hilda"
+          bgColor="#FCEED3"
+          messageContent="Sure thing, Claren"
+        />
+        <MessageDivider label="New Message" color="red" />
+        <AnotherUserMessage
+          sender="Obaidullah Amarkhil"
+          color="#43B78D"
+          bgColor="#D2F2EA"
+          messageContent="Morning. I`ll try to do them. Thanks"
+        />
       </Navbar.Section>
 
       <Navbar.Section
-        display="flex"
         sx={{
           padding: '23px 25px',
-          gap: '13px',
         }}
       >
-        <Input
-          variant="unstyled"
-          radius="sm"
+        {!hideScrollNewMessage && (
+          <Center sx={{ cursor: 'pointer' }} onClick={scrollToBottom}>
+            <Box
+              sx={{
+                backgroundColor: '#E9F3FF',
+                borderRadius: '5px',
+                padding: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                marginBottom: '11px',
+                maxWidth: '150px',
+              }}
+            >
+              <Text fz="sm" fw="bold" color="#2F80ED">
+                New Message
+              </Text>
+              <ActionIcon
+                sx={{
+                  ':hover': { backgroundColor: '#E9F3FF' },
+                  animation: `${bounce} 0.5s ease-in-out infinite`,
+                }}
+              >
+                <HiArrowDown size="20px" color="gray" opacity={0.4} />
+              </ActionIcon>
+            </Box>
+          </Center>
+        )}
+        <Box
+          display="flex"
           sx={{
-            flex: 1,
-            border: '1px solid #828282',
-            padding: '0  16px',
-            boxSizing: 'border-box',
-            borderRadius: '5px',
-            '::placeholder': { color: '#828282' },
+            gap: '13px',
           }}
-          placeholder="Type a new message"
-        />
-        <Button>Send</Button>
+        >
+          <Input
+            variant="unstyled"
+            radius="sm"
+            sx={{
+              flex: 1,
+              border: '1px solid #828282',
+              padding: '0  16px',
+              boxSizing: 'border-box',
+              borderRadius: '5px',
+              '::placeholder': { color: '#828282' },
+            }}
+            placeholder="Type a new message"
+          />
+          <Button>Send</Button>
+        </Box>
       </Navbar.Section>
     </Navbar>
   );

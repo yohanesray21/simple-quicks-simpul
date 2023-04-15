@@ -3,30 +3,22 @@ import {
   ActionIcon,
   Box,
   Button,
-  CloseButton,
-  Divider,
   Input,
-  Menu,
+  Loader,
   Navbar,
   ScrollArea,
   Text,
 } from '@mantine/core';
 
-import { HiArrowLeft, HiDotsHorizontal } from 'react-icons/hi';
+import { HiArrowLeft } from 'react-icons/hi';
 import { MdOutlineClose } from 'react-icons/md';
-import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import OwnMessage from './OwnMessage';
-import MessageDivider from './MessageDivider';
 import AnotherUserMessage from './AnotherUserMessage';
 import { OpenPopoverContext } from '../QuicksButton';
 
 const InboxPrivateDetail = () => {
-  const {
-    setIsOpenGroupChat,
-    setIsOpenPrivateChat,
-    isOpenGroupChat,
-    isOpenPrivateChat,
-  } = useContext(OpenPopoverContext);
+  const { setIsOpenGroupChat, setIsOpenPrivateChat, setIsOpenInbox } =
+    useContext(OpenPopoverContext);
 
   return (
     <Navbar
@@ -51,7 +43,13 @@ const InboxPrivateDetail = () => {
             alignItems: 'center',
           }}
         >
-          <ActionIcon sx={{ ':hover': { backgroundColor: 'white' } }}>
+          <ActionIcon
+            sx={{ ':hover': { backgroundColor: 'white' } }}
+            onClick={() => {
+              setIsOpenGroupChat(false);
+              setIsOpenPrivateChat(false);
+            }}
+          >
             <HiArrowLeft size="24px" color="#333333" />
           </ActionIcon>
           <Box
@@ -70,8 +68,7 @@ const InboxPrivateDetail = () => {
           <ActionIcon
             sx={{ ':hover': { backgroundColor: 'white' } }}
             onClick={() => {
-              setIsOpenGroupChat(false);
-              setIsOpenPrivateChat(false);
+              setIsOpenInbox(false);
             }}
           >
             <MdOutlineClose size="24px" color="#333333" />
@@ -84,31 +81,58 @@ const InboxPrivateDetail = () => {
         component={ScrollArea}
         sx={{ padding: '13px 19px 11px 29px' }}
       >
-        <AnotherUserMessage name="Fast Visa Support" bgColor="#F8F8F8" />
+        <AnotherUserMessage
+          color="#2F80ED"
+          sender="Fast Visa Support"
+          bgColor="#F8F8F8"
+          messageContent="Hey there. Welcome to your inbox! Contact us for more information and help about anything! We ll send you a response as soon as possible."
+        />
         <OwnMessage />
       </Navbar.Section>
 
       <Navbar.Section
-        display="flex"
         sx={{
           padding: '23px 25px',
-          gap: '13px',
         }}
       >
-        <Input
-          variant="unstyled"
-          radius="sm"
+        <Box
           sx={{
-            flex: 1,
-            border: '1px solid #828282',
-            padding: '0  16px',
-            boxSizing: 'border-box',
+            backgroundColor: '#E9F3FF',
             borderRadius: '5px',
-            '::placeholder': { color: '#828282' },
+            padding: '10px',
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: '11px',
+            gap: '10px',
           }}
-          placeholder="Type a new message"
-        />
-        <Button>Send</Button>
+        >
+          <Loader color="#2F80ED" size="sm" />
+          <Text fz="sm" fw="bold" color="#4F4F4F">
+            Please wait while we connect you with one of our team ...
+          </Text>
+        </Box>
+
+        <Box
+          display="flex"
+          sx={{
+            gap: '13px',
+          }}
+        >
+          <Input
+            variant="unstyled"
+            radius="sm"
+            sx={{
+              flex: 1,
+              border: '1px solid #828282',
+              padding: '0  16px',
+              boxSizing: 'border-box',
+              borderRadius: '5px',
+              '::placeholder': { color: '#828282' },
+            }}
+            placeholder="Type a new message"
+          />
+          <Button>Send</Button>
+        </Box>
       </Navbar.Section>
     </Navbar>
   );
