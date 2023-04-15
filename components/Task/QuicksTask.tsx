@@ -77,7 +77,7 @@ const QuicksTask = () => {
           >
             <Loader color="gray" size={61.22} mb={12.7} />
             <Text color="#4F4F4F" fw="bold">
-              Loading Chats ...
+              Loading Task List ...
             </Text>
           </Center>
         </Navbar.Section>
