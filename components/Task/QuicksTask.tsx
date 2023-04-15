@@ -55,17 +55,7 @@ const QuicksTask = () => {
           sx={{ padding: '0px 29px 22px 29px' }}
         >
           {!isLoadingVisibility &&
-            messageList.map((message) => (
-              <TaskItem
-                key={message.id}
-                date={message.date}
-                group={message.group}
-                message={message.message}
-                roomName={message.roomName}
-                sender={message.sender}
-                unread={message.unread}
-              />
-            ))}
+            messageList.map((message, index) => <TaskItem key={index} />)}
           <Center
             sx={{
               minHeight: '550px',
