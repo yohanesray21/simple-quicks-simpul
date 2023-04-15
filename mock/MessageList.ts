@@ -3,7 +3,7 @@ export const messageList = [
     id: 1,
     group: true,
     roomName: '1-589 - AMARKHIL, Obaidullah [Affirmative Filing with ZHN]',
-    date: 'January 1,2021 19:10',
+    date: '02/06/2021 10:45',
     sender: 'Mary Hilda',
     message: 'Please check This Out',
     unread: true,

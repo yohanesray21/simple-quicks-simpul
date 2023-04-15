@@ -1,19 +1,11 @@
 import { useContext } from 'react';
 
-import {
-  ActionIcon,
-  Box,
-  Center,
-  Input,
-  Loader,
-  Overlay,
-  Popover,
-  Text,
-} from '@mantine/core';
+import { ActionIcon, Box, Popover, Text } from '@mantine/core';
 
 import { OpenPopoverContext } from './QuicksButton';
-import Inbox from './Inbox';
-import InboxDetail from './InboxDetail';
+import QuicksInbox from './Inbox/QuicksInbox';
+import InboxGroupDetail from './Inbox/InboxGroupDetail';
+import InboxPrivateDetail from './Inbox/InboxPrivateDetail';
 
 const SwitchInboxButton = () => {
   const {
@@ -22,6 +14,8 @@ const SwitchInboxButton = () => {
     setIsOpenTask,
     isLoadingVisibility,
     setIsLoadingVisibility,
+    isOpenGroupChat,
+    isOpenPrivateChat,
   } = useContext(OpenPopoverContext);
 
   return (
@@ -90,14 +84,18 @@ const SwitchInboxButton = () => {
         <Popover.Dropdown
           bg={'white'}
           sx={{
-            // border: 'none',
-            // padding: '20px 39px 20px 29px',
             padding: 0,
           }}
           ml={-34}
         >
-          {/* <Inbox /> */}
-          <InboxDetail />
+          {!isOpenGroupChat && !isOpenPrivateChat ? <QuicksInbox /> : <></>}
+
+          {isOpenGroupChat && !isOpenPrivateChat ? <InboxGroupDetail /> : <></>}
+          {!isOpenGroupChat && isOpenPrivateChat ? (
+            <InboxPrivateDetail />
+          ) : (
+            <></>
+          )}
         </Popover.Dropdown>
       </Popover>
     </Box>

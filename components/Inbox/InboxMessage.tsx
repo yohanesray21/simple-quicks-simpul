@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Avatar, Box, Text } from '@mantine/core';
+import { OpenPopoverContext } from '../QuicksButton';
 
 interface IInboxProps {
   group: boolean;
@@ -18,12 +19,29 @@ const InboxMessage = ({
   message,
   unread,
 }: IInboxProps) => {
+  const {
+    setIsOpenGroupChat,
+    setIsOpenPrivateChat,
+    isOpenGroupChat,
+    isOpenPrivateChat,
+  } = useContext(OpenPopoverContext);
+
   return (
     <Box
       sx={{
         display: 'flex',
         padding: '22px 0',
         borderBottom: '1px solid #828282',
+        cursor: 'pointer',
+      }}
+      onClick={() => {
+        if (!group) {
+          setIsOpenGroupChat(false);
+          setIsOpenPrivateChat(true);
+        } else {
+          setIsOpenGroupChat(true);
+          setIsOpenPrivateChat(false);
+        }
       }}
     >
       <Box w={60} mr={17}>
