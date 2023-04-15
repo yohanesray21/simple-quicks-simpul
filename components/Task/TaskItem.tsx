@@ -86,8 +86,7 @@ const TaskItem = () => {
             </ActionIcon>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item>Delete</Menu.Item>
-            <Menu.Item>Edit</Menu.Item>
+            <Menu.Item color="red">Delete</Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </Box>
