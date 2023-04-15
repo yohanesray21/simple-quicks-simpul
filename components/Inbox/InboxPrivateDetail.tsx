@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   ActionIcon,
   Box,
@@ -18,8 +18,16 @@ import { BiDotsHorizontalRounded } from 'react-icons/bi';
 import OwnMessage from './OwnMessage';
 import MessageDivider from './MessageDivider';
 import AnotherUserMessage from './AnotherUserMessage';
+import { OpenPopoverContext } from '../QuicksButton';
 
-const InboxDetail = () => {
+const InboxPrivateDetail = () => {
+  const {
+    setIsOpenGroupChat,
+    setIsOpenPrivateChat,
+    isOpenGroupChat,
+    isOpenPrivateChat,
+  } = useContext(OpenPopoverContext);
+
   return (
     <Navbar
       sx={() => ({
@@ -55,14 +63,17 @@ const InboxDetail = () => {
             }}
           >
             <Text color="#2F80ED" fw="bold">
-              1-589 - AMARKHIL, Obaidullah [Affirmative Filing with ZHN]
-            </Text>
-            <Text fw="normal" color="#4F4F4F">
-              3 Participant
+              Fast Visa Support
             </Text>
           </Box>
 
-          <ActionIcon sx={{ ':hover': { backgroundColor: 'white' } }}>
+          <ActionIcon
+            sx={{ ':hover': { backgroundColor: 'white' } }}
+            onClick={() => {
+              setIsOpenGroupChat(false);
+              setIsOpenPrivateChat(false);
+            }}
+          >
             <MdOutlineClose size="24px" color="#333333" />
           </ActionIcon>
         </Box>
@@ -73,13 +84,8 @@ const InboxDetail = () => {
         component={ScrollArea}
         sx={{ padding: '13px 19px 11px 29px' }}
       >
+        <AnotherUserMessage name="Fast Visa Support" bgColor="#F8F8F8" />
         <OwnMessage />
-
-        <MessageDivider />
-
-        <AnotherUserMessage />
-        <OwnMessage />
-        <AnotherUserMessage />
       </Navbar.Section>
 
       <Navbar.Section
@@ -108,4 +114,4 @@ const InboxDetail = () => {
   );
 };
 
-export default InboxDetail;
+export default InboxPrivateDetail;

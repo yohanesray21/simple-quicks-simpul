@@ -2,7 +2,13 @@ import { ActionIcon, Box, Menu, Text } from '@mantine/core';
 import React from 'react';
 import { HiDotsHorizontal } from 'react-icons/hi';
 
-const AnotherUserMessage = () => {
+const AnotherUserMessage = ({
+  bgColor,
+  name,
+}: {
+  bgColor?: string;
+  name?: string;
+}) => {
   return (
     <Box
       sx={{
@@ -12,11 +18,11 @@ const AnotherUserMessage = () => {
       }}
     >
       <Text color="#E5A443" fw="bold">
-        Mary Hilda
+        {name ? name : 'Mary Hilda'}
       </Text>
       <Box display="flex">
         <Box
-          bg="#FCEED3"
+          bg={bgColor ? bgColor : '#FCEED3'}
           p="10px"
           sx={{ borderRadius: '5px', maxWidth: '541px' }}
         >

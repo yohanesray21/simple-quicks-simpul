@@ -14,6 +14,10 @@ type OpenPopoverContextType = {
   setIsOpenInbox: React.Dispatch<React.SetStateAction<boolean>>;
   isLoadingVisibility: boolean;
   setIsLoadingVisibility: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpenGroupChat: boolean | null;
+  setIsOpenGroupChat: React.Dispatch<React.SetStateAction<boolean>>;
+  isOpenPrivateChat: boolean | null;
+  setIsOpenPrivateChat: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const OpenPopoverContext = createContext<OpenPopoverContextType>({
@@ -23,12 +27,18 @@ export const OpenPopoverContext = createContext<OpenPopoverContextType>({
   setIsOpenInbox: () => {},
   isLoadingVisibility: true,
   setIsLoadingVisibility: () => {},
+  isOpenGroupChat: false,
+  setIsOpenGroupChat: () => {},
+  isOpenPrivateChat: false,
+  setIsOpenPrivateChat: () => {},
 });
 
 const QuicksButton = () => {
   const [isOpenTask, setIsOpenTask] = useState(false);
   const [isOpenInbox, setIsOpenInbox] = useState(false);
   const [isLoadingVisibility, setIsLoadingVisibility] = useState(true);
+  const [isOpenGroupChat, setIsOpenGroupChat] = useState(false);
+  const [isOpenPrivateChat, setIsOpenPrivateChat] = useState(false);
 
   return (
     <OpenPopoverContext.Provider
@@ -39,6 +49,10 @@ const QuicksButton = () => {
         setIsOpenInbox,
         isLoadingVisibility,
         setIsLoadingVisibility,
+        isOpenGroupChat,
+        setIsOpenGroupChat,
+        isOpenPrivateChat,
+        setIsOpenPrivateChat,
       }}
     >
       <Popover
