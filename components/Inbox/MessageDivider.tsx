@@ -1,13 +1,13 @@
 import { Divider } from '@mantine/core';
 import React from 'react';
 
-const MessageDivider = () => {
+const MessageDivider = ({ label, color }: { label: string; color: string }) => {
   return (
     <Divider
       m="27px 0 6px 0"
       size="sm"
-      color="#4F4F4F"
-      label="Today June 09, 2021"
+      color={color}
+      label={label}
       labelPosition="center"
       fw="bold"
     />

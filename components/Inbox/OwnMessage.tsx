@@ -51,7 +51,7 @@ const OwnMessage = () => {
           <Text fw="normal" fz="sm" color="#4F4F4F">
             No worries. It will be completed ASAP Ive asked him yesterday.
           </Text>
-          <Text fw="normal" fz="sm" color="#4F4F4F">
+          <Text fw="normal" fz="xs" mt={4} color="#4F4F4F">
             19:32
           </Text>
         </Box>

@@ -11,8 +11,9 @@ import {
 
 import { messageList } from '@/mock/MessageList';
 import { BiSearchAlt2 } from 'react-icons/bi';
-import InboxMessage from './InboxMessage';
+import InboxMessage from './InboxMessageItem';
 import { OpenPopoverContext } from '../QuicksButton';
+import InboxMessageItem from './InboxMessageItem';
 
 const QuicksInbox = () => {
   const { isLoadingVisibility } = useContext(OpenPopoverContext);
@@ -56,7 +57,7 @@ const QuicksInbox = () => {
         >
           {!isLoadingVisibility &&
             messageList.map((message) => (
-              <InboxMessage
+              <InboxMessageItem
                 key={message.id}
                 date={message.date}
                 group={message.group}
@@ -68,13 +69,13 @@ const QuicksInbox = () => {
             ))}
           <Center
             sx={{
-              height: '90%',
-              width: '100%',
+              minHeight: '550px',
+              maxHeight: '800px',
+              height: '100%',
               display: isLoadingVisibility ? 'flex' : 'none',
               flexDirection: 'column',
             }}
           >
-            <Overlay color="#000" opacity={0} />
             <Loader color="gray" size={61.22} mb={12.7} />
             <Text color="#4F4F4F" fw="bold">
               Loading Chats ...
