@@ -1,5 +1,5 @@
-import { ActionIcon, Box, Menu, Text } from '@mantine/core';
 import React from 'react';
+import { ActionIcon, Box, Menu, Text } from '@mantine/core';
 import { HiDotsHorizontal } from 'react-icons/hi';
 
 const AnotherUserMessage = ({
@@ -7,11 +7,13 @@ const AnotherUserMessage = ({
   sender,
   color,
   messageContent,
+  setIsReply,
 }: {
   bgColor: string;
   sender: string;
   color: string;
   messageContent: string;
+  setIsReply: (value: React.SetStateAction<boolean>) => void;
 }) => {
   return (
     <Box
@@ -43,9 +45,28 @@ const AnotherUserMessage = ({
               <HiDotsHorizontal size="16px" color="gray" />
             </ActionIcon>
           </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Item>Delete</Menu.Item>
-            <Menu.Item>Edit</Menu.Item>
+          <Menu.Dropdown sx={{ border: '1px solid #BDBDBD', padding: 0 }}>
+            <Menu.Item
+              sx={{
+                borderBottom: '1px solid #BDBDBD',
+                width: '126px',
+                borderRadius: '0',
+                color: '#2F80ED',
+              }}
+            >
+              Share
+            </Menu.Item>
+            <Menu.Item
+              onClick={(prev) => setIsReply(true)}
+              sx={{
+                borderBottom: '1px solid #BDBDBD',
+                width: '126px',
+                borderRadius: '0',
+                color: '#2F80ED',
+              }}
+            >
+              Reply
+            </Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </Box>

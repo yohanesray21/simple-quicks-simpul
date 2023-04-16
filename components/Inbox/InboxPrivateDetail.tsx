@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   ActionIcon,
   Box,
@@ -19,6 +19,8 @@ import { OpenPopoverContext } from '../QuicksButton';
 const InboxPrivateDetail = () => {
   const { setIsOpenGroupChat, setIsOpenPrivateChat, setIsOpenInbox } =
     useContext(OpenPopoverContext);
+
+  const [reply, setReply] = useState(false);
 
   return (
     <Navbar
@@ -86,6 +88,7 @@ const InboxPrivateDetail = () => {
           sender="Fast Visa Support"
           bgColor="#F8F8F8"
           messageContent="Hey there. Welcome to your inbox! Contact us for more information and help about anything! We ll send you a response as soon as possible."
+          setIsReply={(prev) => setReply(true)}
         />
         <OwnMessage />
       </Navbar.Section>
