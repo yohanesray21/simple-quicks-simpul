@@ -1,24 +1,47 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   Button,
   Center,
-  Input,
   Loader,
   Navbar,
-  Overlay,
   ScrollArea,
   Select,
   Text,
 } from '@mantine/core';
 
-import { messageList } from '@/mock/MessageList';
-import { BiChevronDown, BiSearchAlt2 } from 'react-icons/bi';
+import { TaskList } from '@/mock/TaskList';
+import { BiChevronDown } from 'react-icons/bi';
+import TaskItem, { TaskListType } from './TaskItem';
 import { OpenPopoverContext } from '../QuicksButton';
-import InboxMessageItem from '../Inbox/InboxMessageItem';
-import TaskItem from './TaskItem';
 
 const QuicksTask = () => {
+  const viewport = useRef<HTMLDivElement>(null);
+
   const { isLoadingVisibility } = useContext(OpenPopoverContext);
+
+  const [tasks, setTasks] = useState<TaskListType[]>(TaskList);
+
+  useEffect(() => {
+    viewport.current?.scrollTo({
+      top: viewport.current.scrollHeight,
+      behavior: 'smooth',
+    });
+  }, [tasks]);
+
+  const handleAddNewTask = () => {
+    const newTask: TaskListType = {
+      id: tasks.length + 1, // Generate a unique ID for the new task
+      label: '',
+      remainingDays: '',
+      description: '',
+      isChecked: false,
+      isCollapseOpen: true,
+      isNewTask: true,
+    };
+
+    setTasks([...tasks, newTask]);
+  };
+
   return (
     <>
       <Navbar
@@ -46,16 +69,29 @@ const QuicksTask = () => {
             rightSection={<BiChevronDown size="1rem" color="4F4F4F" />}
             style={{ width: 140 }}
           />
-          <Button>New Task</Button>
+          <Button onClick={handleAddNewTask}>New Task</Button>
         </Navbar.Section>
 
         <Navbar.Section
           grow
           component={ScrollArea}
+          viewportRef={viewport}
           sx={{ padding: '0px 29px 22px 29px' }}
         >
           {!isLoadingVisibility &&
-            messageList.map((message, index) => <TaskItem key={index} />)}
+            tasks.map((message) => (
+              <TaskItem
+                isChecked={message.isChecked}
+                label={message.label}
+                date={message.date}
+                description={message.description}
+                remainingDays={message.remainingDays}
+                isCollapseOpen={message.isCollapseOpen}
+                key={message.id}
+                isNewTask={message.isNewTask}
+              />
+            ))}
+
           <Center
             sx={{
               minHeight: '550px',
