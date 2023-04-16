@@ -13,7 +13,7 @@ const AnotherUserMessage = ({
   sender: string;
   color: string;
   messageContent: string;
-  setIsReply: (reply: boolean) => void;
+  setIsReply: (value: React.SetStateAction<boolean>) => void;
 }) => {
   return (
     <Box
