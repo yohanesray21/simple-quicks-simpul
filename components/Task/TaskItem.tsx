@@ -134,7 +134,10 @@ const TaskItem = ({
               disabled
               sx={{ ':disabled': { backgroundColor: 'white', border: 'none' } }}
             >
-              <HiOutlineClock size="1rem" color="#2F80ED" />
+              <HiOutlineClock
+                size="1rem"
+                color={isEditable ? 'gray' : '#2F80ED'}
+              />
             </ActionIcon>
             <DateInput
               valueFormat="DD/MM/YYYY"
@@ -150,7 +153,7 @@ const TaskItem = ({
           </Box>
           <Box sx={{ display: 'flex', gap: '18px' }}>
             <ActionIcon>
-              <BiPencil size="1rem" color="#2F80ED" />
+              <BiPencil size="1rem" color={isEditable ? 'gray' : '#2F80ED'} />
             </ActionIcon>
             <Textarea
               w="100%"
