@@ -9,6 +9,7 @@ export const TaskList = [
     isCollapseOpen: false,
     isChecked: true,
     isNewTask: false,
+    stickerValue: ['Virtual Meeting'],
   },
   {
     id: 2,
@@ -19,6 +20,7 @@ export const TaskList = [
     isCollapseOpen: false,
     isChecked: false,
     isNewTask: false,
+    stickerValue: ['Virtual Meeting', 'Client Related'],
   },
   {
     id: 3,
@@ -30,6 +32,7 @@ export const TaskList = [
     isCollapseOpen: false,
     isChecked: false,
     isNewTask: false,
+    stickerValue: ['Virtual Meeting', 'Client Related'],
   },
   {
     id: 4,
@@ -41,6 +44,7 @@ export const TaskList = [
     isCollapseOpen: false,
     isChecked: true,
     isNewTask: false,
+    stickerValue: ['Virtual Meeting'],
   },
   {
     id: 5,
@@ -52,6 +56,7 @@ export const TaskList = [
     isCollapseOpen: false,
     isChecked: false,
     isNewTask: false,
+    stickerValue: ['Virtual Meeting', 'Appointments'],
   },
   {
     id: 6,
@@ -63,5 +68,6 @@ export const TaskList = [
     isCollapseOpen: false,
     isChecked: false,
     isNewTask: false,
+    stickerValue: ['Virtual Meeting', 'Court Related'],
   },
 ];

@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
+import React, { forwardRef, useState } from 'react';
 import {
   ActionIcon,
-  Avatar,
   Box,
   Checkbox,
   Collapse,
   Input,
   Menu,
+  MultiSelect,
   Text,
   Textarea,
 } from '@mantine/core';
-import { BiChevronDown, BiChevronUp, BiPencil } from 'react-icons/bi';
-import { HiDotsHorizontal, HiOutlineClock } from 'react-icons/hi';
 import { useDisclosure } from '@mantine/hooks';
 import { DateInput } from '@mantine/dates';
+
+import { BiChevronDown, BiChevronUp, BiPencil } from 'react-icons/bi';
 import { MdOutlineCalendarToday } from 'react-icons/md';
+import { HiDotsHorizontal, HiOutlineClock } from 'react-icons/hi';
+import { BsBookmarks } from 'react-icons/bs';
+
+import { StickerList } from '../../mock/StickersList';
 
 export interface TaskListType {
   id?: number;
@@ -25,6 +29,7 @@ export interface TaskListType {
   isCollapseOpen: boolean;
   isChecked: boolean;
   isNewTask: boolean;
+  stickerValue?: string[];
 }
 
 const TaskItem = ({
@@ -35,6 +40,7 @@ const TaskItem = ({
   isCollapseOpen,
   isChecked,
   isNewTask,
+  stickerValue,
 }: TaskListType) => {
   const [opened, { toggle }] = useDisclosure(isCollapseOpen);
 
@@ -44,6 +50,52 @@ const TaskItem = ({
   const [newLabel, setNewLabel] = useState(label);
   const [check, setCheck] = useState(isChecked);
   const [isEditable, setIsEditable] = useState(isNewTask);
+  const [value, setValue] = useState(stickerValue);
+
+  // eslint-disable-next-line react/display-name
+  const SelectedItem = forwardRef<HTMLDivElement>(
+    ({ label, bgColor, ...others }: any, ref) => (
+      <Box ref={ref} {...others}>
+        <Box
+          style={{
+            backgroundColor: bgColor,
+            borderRadius: '5px',
+            paddingTop: '4px',
+            height: '28px',
+          }}
+        >
+          <Text fw="bold" fz="sm" color="#4F4F4F">
+            <span style={{ marginLeft: '14px', marginTop: '10px' }}>
+              {label}
+            </span>
+          </Text>
+        </Box>
+      </Box>
+    )
+  );
+
+  const Value = ({ label, value, bgColor, onRemove, ...others }: any) => {
+    return (
+      <Box {...others}>
+        <Box
+          sx={{
+            display: 'flex',
+            cursor: 'default',
+            alignItems: 'center',
+            backgroundColor: bgColor,
+            border: 'gray',
+            paddingLeft: '14px',
+            paddingRight: '14px',
+            borderRadius: '5px',
+          }}
+        >
+          <Box fw="bold" fz="sm" sx={{ color: '#4F4F4F' }}>
+            {label}
+          </Box>
+        </Box>
+      </Box>
+    );
+  };
 
   return (
     <Box
@@ -163,6 +215,18 @@ const TaskItem = ({
               autosize
               variant="unstyled"
               placeholder="No Description"
+            />
+          </Box>
+          <Box sx={{ display: 'flex', gap: '18px' }}>
+            <MultiSelect
+              w="100%"
+              icon={<BsBookmarks color={isEditable ? 'gray' : '#2F80ED'} />}
+              data={StickerList}
+              itemComponent={SelectedItem}
+              searchable
+              valueComponent={Value}
+              value={value}
+              onChange={setValue}
             />
           </Box>
         </Box>
