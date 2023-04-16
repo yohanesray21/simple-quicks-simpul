@@ -5,6 +5,7 @@ import {
   Box,
   Checkbox,
   Collapse,
+  Input,
   Menu,
   Text,
   Textarea,
@@ -15,13 +16,34 @@ import { useDisclosure } from '@mantine/hooks';
 import { DateInput } from '@mantine/dates';
 import { MdOutlineCalendarToday } from 'react-icons/md';
 
-const TaskItem = () => {
-  const [opened, { toggle }] = useDisclosure(false);
+export interface TaskListType {
+  id?: number;
+  label: string;
+  remainingDays: string;
+  date?: string;
+  description: string;
+  isCollapseOpen: boolean;
+  isChecked: boolean;
+  isNewTask: boolean;
+}
 
-  const currentDate = new Date();
+const TaskItem = ({
+  label,
+  remainingDays,
+  date,
+  description,
+  isCollapseOpen,
+  isChecked,
+  isNewTask,
+}: TaskListType) => {
+  const [opened, { toggle }] = useDisclosure(isCollapseOpen);
+
+  const currentDate = date ? new Date(Date.parse(date)) : null;
   const [dateValue, setDateValue] = useState<Date | null>(currentDate);
-  const [descriptionValue, setDescriptionValue] = useState<string>('');
-  const [check, setCheck] = useState(false);
+  const [descriptionValue, setDescriptionValue] = useState<string>(description);
+  const [newLabel, setNewLabel] = useState(label);
+  const [check, setCheck] = useState(isChecked);
+  const [isEditable, setIsEditable] = useState(isNewTask);
 
   return (
     <Box
@@ -37,15 +59,15 @@ const TaskItem = () => {
         display="flex"
         sx={{
           alignItems: 'flex-start',
-          justifyContent: 'space-around',
+          justifyContent: !isEditable ? 'space-between' : 'space-around',
           gap: '8px',
         }}
       >
         <Checkbox
-          label={'Close off Case #012920- RODRIGUES, Amiguel'}
+          label={isEditable ? null : newLabel}
           size="xs"
           fw="bold"
-          w="100%"
+          // w="100%"
           color="gray"
           checked={check}
           td={check ? 'line-through' : ''}
@@ -62,15 +84,23 @@ const TaskItem = () => {
               border: '2px solid gray',
               textDecoration: '',
             },
-            flex: 1,
+            flex: !isEditable ? 1 : '',
           }}
         />
+        {isEditable && (
+          <Input
+            value={newLabel}
+            onChange={(e) => setNewLabel(e.target.value)}
+            onBlur={() => setIsEditable(false)}
+            sx={{ flex: 1, maxWidth: 380 }}
+          />
+        )}
 
         <Text fw="normal" fz="sm" color="#EB5757">
-          2 Days Left
+          {remainingDays}
         </Text>
         <Text fw="normal" fz="sm" color="#4F4F4F">
-          12/06/2021
+          {date ? date : dateValue?.toLocaleDateString()}
         </Text>
         <ActionIcon onClick={toggle}>
           {opened ? (
@@ -104,13 +134,16 @@ const TaskItem = () => {
               disabled
               sx={{ ':disabled': { backgroundColor: 'white', border: 'none' } }}
             >
-              <HiOutlineClock size="1rem" color="#2F80ED" />
+              <HiOutlineClock
+                size="1rem"
+                color={isEditable ? 'gray' : '#2F80ED'}
+              />
             </ActionIcon>
             <DateInput
               valueFormat="DD/MM/YYYY"
               value={dateValue}
               onChange={setDateValue}
-              placeholder="setDate"
+              placeholder="Set Date"
               rightSection={<MdOutlineCalendarToday color="#4F4F4F" />}
               sx={{
                 // Expand Calendar To the right
@@ -120,12 +153,13 @@ const TaskItem = () => {
           </Box>
           <Box sx={{ display: 'flex', gap: '18px' }}>
             <ActionIcon>
-              <BiPencil size="1rem" color="#2F80ED" />
+              <BiPencil size="1rem" color={isEditable ? 'gray' : '#2F80ED'} />
             </ActionIcon>
             <Textarea
               w="100%"
               value={descriptionValue}
               onChange={(e) => setDescriptionValue(e.target.value)}
+              minRows={2}
               autosize
               variant="unstyled"
               placeholder="No Description"
