@@ -89,6 +89,7 @@ const QuicksTask = () => {
                 isCollapseOpen={message.isCollapseOpen}
                 key={message.id}
                 isNewTask={message.isNewTask}
+                stickerValue={message.stickerValue}
               />
             ))}
 
