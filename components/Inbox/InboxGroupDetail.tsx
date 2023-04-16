@@ -4,21 +4,22 @@ import {
   Button,
   Input,
   Box,
-  Loader,
   Navbar,
   ScrollArea,
   Text,
   keyframes,
   Center,
+  CloseButton,
 } from '@mantine/core';
 
-import { HiArrowDown, HiArrowLeft, HiDotsHorizontal } from 'react-icons/hi';
 import { MdOutlineClose } from 'react-icons/md';
-import { BiDotsHorizontalRounded } from 'react-icons/bi';
+import { OpenPopoverContext } from '../QuicksButton';
+import { HiArrowDown, HiArrowLeft } from 'react-icons/hi';
+
 import OwnMessage from './OwnMessage';
+import RepliedMessage from './RepliedMessage';
 import MessageDivider from './MessageDivider';
 import AnotherUserMessage from './AnotherUserMessage';
-import { OpenPopoverContext } from '../QuicksButton';
 
 const bounce = keyframes({
   '0%': {
@@ -35,15 +36,14 @@ const bounce = keyframes({
 const InboxGroupDetail = () => {
   const viewport = useRef<HTMLDivElement>(null);
 
+  const [reply, setReply] = useState(false);
+  const [value, setValue] = useState('');
+  const [repliedMessage, setRepliedMessage] = useState({ message: '' });
+  const [isSent, setIsSent] = useState<boolean>(false);
   const [hideScrollNewMessage, setHideScrollNewMessage] = useState(false);
 
-  const {
-    setIsOpenGroupChat,
-    setIsOpenPrivateChat,
-    setIsOpenInbox,
-    isOpenGroupChat,
-    isOpenPrivateChat,
-  } = useContext(OpenPopoverContext);
+  const { setIsOpenGroupChat, setIsOpenPrivateChat, setIsOpenInbox } =
+    useContext(OpenPopoverContext);
 
   const scrollToBottom = () => {
     viewport.current?.scrollTo({
@@ -53,6 +53,10 @@ const InboxGroupDetail = () => {
 
     setHideScrollNewMessage(true);
   };
+
+  // useEffect(() => {
+  //   scrollToBottom();
+  // }, [isSent]);
 
   return (
     <Navbar
@@ -128,6 +132,7 @@ const InboxGroupDetail = () => {
           messageContent="Hey there. Welcome to your inbox! Contact us for more information
           and help about anything! We will send you a response as soon as
           possible."
+          setIsReply={(newReply) => setReply(newReply)}
         />
         <OwnMessage />
 
@@ -136,6 +141,7 @@ const InboxGroupDetail = () => {
           sender="Mary Hilda"
           bgColor="#FCEED3"
           messageContent="Sure thing, Claren"
+          setIsReply={(newReply) => setReply(newReply)}
         />
         <MessageDivider label="New Message" color="red" />
         <AnotherUserMessage
@@ -143,7 +149,12 @@ const InboxGroupDetail = () => {
           color="#43B78D"
           bgColor="#D2F2EA"
           messageContent="Morning. I`ll try to do them. Thanks"
+          setIsReply={(reply) => setReply(reply)}
         />
+
+        {isSent && (
+          <RepliedMessage repliedMessage={repliedMessage} isSent={isSent} />
+        )}
       </Navbar.Section>
 
       <Navbar.Section
@@ -182,22 +193,69 @@ const InboxGroupDetail = () => {
           display="flex"
           sx={{
             gap: '13px',
+            alignItems: 'flex-end',
           }}
         >
-          <Input
-            variant="unstyled"
-            radius="sm"
-            sx={{
-              flex: 1,
-              border: '1px solid #828282',
-              padding: '0  16px',
-              boxSizing: 'border-box',
-              borderRadius: '5px',
-              '::placeholder': { color: '#828282' },
+          <Box w="100%">
+            {reply && (
+              <Box
+                sx={{
+                  padding: '10px',
+                  border: '1px solid #828282',
+                  borderRadius: ' 5px 5px 0px 0px ',
+                  borderBottom: 'none',
+                  backgroundColor: '#F2F2F2',
+                }}
+              >
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text color="#4F4F4F" fw="bold" fz="sm">
+                    Replying to Mary Hilda
+                  </Text>
+                  <CloseButton onClick={() => setReply(false)} />
+                </Box>
+                <Text fz="xs" color="#4F4F4F">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Facilis quod nobis optio rerum? Cumque, et. Obcaecati ut culpa
+                  totam voluptates.
+                </Text>
+              </Box>
+            )}
+            <Input
+              variant="unstyled"
+              radius="sm"
+              sx={{
+                flex: 1,
+                border: '1px solid #828282',
+                padding: '0  16px',
+                boxSizing: 'border-box',
+                borderRadius: reply ? '0px 0px 5px 5px' : '5px',
+                borderTopLeftRadius: 'none',
+                borderTopRightRadius: 'none',
+                '::placeholder': { color: '#828282' },
+              }}
+              placeholder="Type a new message"
+              onChange={(e) => setValue(e.target.value)}
+              value={value}
+            />
+          </Box>
+
+          <Button
+            onClick={() => {
+              setIsSent(true);
+              scrollToBottom();
+              setReply(false);
+              setRepliedMessage({ ...repliedMessage, message: value });
+              setValue('');
             }}
-            placeholder="Type a new message"
-          />
-          <Button>Send</Button>
+          >
+            Send
+          </Button>
         </Box>
       </Navbar.Section>
     </Navbar>
